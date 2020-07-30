@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "314371552866",
+    "firebase_url": "https://telehealth-35a94.firebaseio.com",
+    "project_id": "telehealth-35a94",
+    "storage_bucket": "telehealth-35a94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314371552866:android:5f6369d8d23d795b76033b",
+        "android_client_info": {
+          "package_name": "com.developndesign.telehealthpatient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314371552866-0c8shh9vjfbj0aci1oifeqn17ts6km1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwxqPAM03DdVilPQyXdrBbaQ6ir2ssQn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314371552866-0c8shh9vjfbj0aci1oifeqn17ts6km1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

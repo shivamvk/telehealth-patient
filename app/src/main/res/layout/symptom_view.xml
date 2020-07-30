@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="10dp"
+    android:layout_height="150dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/symptom_img"
+            android:layout_width="match_parent"
+            android:src="@drawable/doc"
+            android:scaleType="centerCrop"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/symptom_name"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:text="Doctor"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:textColor="@color/colowWhite"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
