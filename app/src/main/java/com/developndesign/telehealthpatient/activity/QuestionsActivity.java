@@ -57,7 +57,7 @@ public class QuestionsActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bookAppointmentModelData.getSymptoms().get(0).getQuestions().size() > 0)
+                if (bookAppointmentModelData.getSymptoms().get(0).getQuestions()!=null&&bookAppointmentModelData.getSymptoms().get(0).getQuestions().size() > 0)
                     startActivity(new Intent(QuestionsActivity.this, SelectDoctorActivity.class)
                     .putExtra(LocalData.BOOK_APPOINTMENT,bookAppointmentModelData));
                 else

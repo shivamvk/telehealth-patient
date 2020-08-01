@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colowWhite"
     tools:context=".activity.OnBoardingActivity">
 
     <RelativeLayout
@@ -54,7 +55,7 @@
             android:layout_below="@id/title"
             android:layout_marginTop="10dp"
             android:text="Description"
-            android:textColor="@color/colorDescription"
+            android:textColor="@color/hintColor"
             android:textSize="14sp" />
 
         <LinearLayout

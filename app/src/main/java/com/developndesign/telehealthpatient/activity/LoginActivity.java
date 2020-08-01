@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                         localData.setVerified(data.getUser().isVerified());
                         localData.setProfilePicture(data.getUser().getProfile_picture());
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
+                        finishAffinity();
                     }
                 } catch (Exception e) {
                     progressDialog.cancel();

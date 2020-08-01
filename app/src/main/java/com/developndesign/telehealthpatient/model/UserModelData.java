@@ -31,6 +31,15 @@ public class UserModelData {
     private String mobile_number;
     private boolean medicalBoardDeciplinaryAction;
     private boolean favourite;
+    private AddressModelData address;
+
+    public AddressModelData getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressModelData address) {
+        this.address = address;
+    }
 
     public  boolean isFavourite(){
         return favourite;

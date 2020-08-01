@@ -77,8 +77,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         progressDialog.setCanceledOnTouchOutside(false);
                         progressDialog.show();
                         new RegisterUser().execute(MongoDB.REGISTER_PATIENT_URL);
-                    }
-                else
+                    } else
                         Toast.makeText(activity, "Please check privacy policy", Toast.LENGTH_SHORT).show();
             }
         });
@@ -130,7 +129,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         localData.setProfilePicture(data.getUser().getProfile_picture());
                         progressDialog.cancel();
                         startActivity(new Intent(activity, MainActivity.class));
-                        finish();
+                        finishAffinity();
                     }
                 } catch (Exception e) {
                     progressDialog.cancel();

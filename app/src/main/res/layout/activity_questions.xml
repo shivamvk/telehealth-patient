@@ -17,9 +17,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/question_recyclerview"
         android:layout_width="match_parent"
+        android:layout_marginBottom="60dp"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_margin="10dp" />
+        android:layout_below="@id/toolbar" />
 
     <Button
         android:id="@+id/next"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_background"
         android:paddingStart="90dp"
         android:paddingEnd="90dp"

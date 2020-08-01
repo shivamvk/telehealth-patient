@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TeleHealthPatient</string>
+    <string name="app_name">TeleHealth Patient</string>
     <string-array name="member">
         <item>Video</item>
         <item>Audio</item>
@@ -9,7 +9,10 @@
         <item>Female</item>
     </string-array>
     <string name="agora_app_id">a483a494f8da4ddbb23e66bf96c88104</string>
-
+    <string-array name="smoking">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
     <array name="menuOptions">
         <item>New Booking</item>
         <item>Call History</item>
@@ -18,6 +21,31 @@
         <item>Our Blog</item>
         <item>Terms and Conditions</item>
     </array>
+    <string-array name="mp">
+        <item>Acid reflux</item>
+        <item>Allergy</item>
+        <item>Arthritis</item>
+        <item>Arrhythmia</item>
+        <item>Asthma</item>
+        <item>Bipolar</item>
+        <item>Chronic bronchitis</item>
+        <item>Constipation</item>
+        <item>Deep venous thrombosis</item>
+        <item>Depression</item>
+        <item>Diabetes</item>
+        <item>Fibromyalgia</item>
+        <item>Heart disease</item>
+        <item>Hypertension</item>
+        <item>Heart failure</item>
+        <item>Kidney stones</item>
+        <item>Low back pain</item>
+        <item>Migraines</item>
+        <item>Ovarian cyst</item>
+        <item>Seizure</item>
+        <item>Stroke</item>
+        <item>Thyroid</item>
+        <item>Ulcers</item>
+    </string-array>
     <string name="text_terms_condition"><![CDATA[Agree to our <font color="#006AFF"><u>privacy policy</u></font> <br> &nbsp and <font color="#006AFF"><u>Terms and Condition</u></font> ]]></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

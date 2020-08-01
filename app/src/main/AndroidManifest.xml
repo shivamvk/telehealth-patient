@@ -16,11 +16,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.OnBoardingActivity"></activity>
+        <activity
+            android:name=".activity.AddPatientActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.OnBoardingActivity" />
         <activity android:name=".activity.NotificationActivity" />
         <activity android:name=".activity.BlogActivity" />
         <activity android:name=".activity.TermsConditionActivity" />
@@ -30,11 +33,13 @@
         <activity android:name=".activity.SelectDoctorActivity" />
         <activity android:name=".activity.QuestionsActivity" />
         <activity android:name=".activity.SymptomsActivity" />
+
         <service android:name=".utils.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".activity.EditProfileActivity"
             android:screenOrientation="portrait" />

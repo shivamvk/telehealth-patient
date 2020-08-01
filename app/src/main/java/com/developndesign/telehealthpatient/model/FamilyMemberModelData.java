@@ -10,10 +10,12 @@ public class FamilyMemberModelData implements Parcelable {
     private String gender;
     private String relationWithAccountHolder;
     private String user;
+    private HistoryModelData historyModelData;
 
-    public FamilyMemberModelData(){
+    public FamilyMemberModelData() {
 
     }
+
     protected FamilyMemberModelData(Parcel in) {
         _id = in.readString();
         name = in.readString();
@@ -25,6 +27,7 @@ public class FamilyMemberModelData implements Parcelable {
         gender = in.readString();
         relationWithAccountHolder = in.readString();
         user = in.readString();
+        historyModelData = in.readParcelable(HistoryModelData.class.getClassLoader());
     }
 
     public static final Creator<FamilyMemberModelData> CREATOR = new Creator<FamilyMemberModelData>() {
@@ -38,6 +41,14 @@ public class FamilyMemberModelData implements Parcelable {
             return new FamilyMemberModelData[size];
         }
     };
+
+    public HistoryModelData getHistoryModelData() {
+        return historyModelData;
+    }
+
+    public void setHistoryModelData(HistoryModelData historyModelData) {
+        this.historyModelData = historyModelData;
+    }
 
     public String get_id() {
         return _id;
@@ -87,6 +98,7 @@ public class FamilyMemberModelData implements Parcelable {
         this.user = user;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -105,5 +117,6 @@ public class FamilyMemberModelData implements Parcelable {
         dest.writeString(gender);
         dest.writeString(relationWithAccountHolder);
         dest.writeString(user);
+        dest.writeParcelable(historyModelData, flags);
     }
 }

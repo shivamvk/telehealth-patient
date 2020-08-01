@@ -57,7 +57,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private LocalData localData;
     private Activity activity;
     private Response response;
-    private EditText name, email, phoneNumber, dob;
+    private EditText name, email, phoneNumber, dob, addressLine1, addressLine2, city, state, zip;
     private String gender = "male";
     private String strname = "", stremail = "", strPhoneNumber = "";
     private TextView male, female;
@@ -73,6 +73,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private int mmonth;
     private int mday;
     private String isodob = "";
+    private String address1;
+    private String address2;
+    private String strcity;
+    private String strstate;
+    private String strzip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +89,11 @@ public class EditProfileActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         dob = findViewById(R.id.dob);
         phoneNumber = findViewById(R.id.phone_number);
+        addressLine1 = findViewById(R.id.ad1);
+        addressLine2 = findViewById(R.id.ad2);
+        city = findViewById(R.id.city);
+        state = findViewById(R.id.state);
+        zip = findViewById(R.id.zip);
         male = findViewById(R.id.male);
         female = findViewById(R.id.female);
         circleImageView = findViewById(R.id.image);
@@ -123,6 +133,11 @@ public class EditProfileActivity extends AppCompatActivity {
                     strname = name.getText().toString();
                     stremail = email.getText().toString();
                     strPhoneNumber = phoneNumber.getText().toString();
+                    address1 = addressLine1.getText().toString();
+                    address2 = addressLine2.getText().toString();
+                    strcity = city.getText().toString();
+                    strstate = state.getText().toString();
+                    strzip = zip.getText().toString();
                     progressDialog.setMessage("Please wait...");
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
@@ -229,13 +244,22 @@ public class EditProfileActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 OkHttpClient client = new OkHttpClient();
-                Log.e("TAG", "doInBackground: " + isodob);
+             //   Log.e("TAG", "doInBackground: " + isodob);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("addressLine1", address1);
+                jsonObject.put("addressLine2", address2);
+                jsonObject.put("city", strcity);
+                jsonObject.put("state", strstate);
+                jsonObject.put("zip", strzip);
+
+
                 MultipartBody.Builder req = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("full_name", strname)
                         .addFormDataPart("email", stremail)
                         .addFormDataPart("gender", gender)
                         .addFormDataPart("dob", "" + isodob)
-                        .addFormDataPart("mobile_number", strPhoneNumber);
+                        .addFormDataPart("mobile_number", strPhoneNumber)
+                        .addFormDataPart("address",jsonObject.toString());
 
                 if (uri != null) {
                     File imageFile = new File(getFilePath(EditProfileActivity.this, uri));
@@ -371,8 +395,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
                         if (data.getUser().getProfile_picture() != null && !data.getUser().getProfile_picture().isEmpty())
                             Glide.with(EditProfileActivity.this).load(MongoDB.AMAZON_BUCKET_URL + data.getUser().getProfile_picture()).into(circleImageView);
-
-
+                        if (data.getUser().getAddress() != null) {
+                            addressLine1.setText(data.getUser().getAddress().getAddressLine1());
+                            addressLine2.setText(data.getUser().getAddress().getAddressLine2());
+                            state.setText(data.getUser().getAddress().getState());
+                            city.setText(data.getUser().getAddress().getCity());
+                            zip.setText(data.getUser().getAddress().getZip());
+                        }
                     }
                 }
 //                } catch (Exception e) {
