@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.developndesign.telehealthpatient.R;
 import com.developndesign.telehealthpatient.activity.MainActivity;
+import com.developndesign.telehealthpatient.activity.VideoChatViewActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -41,12 +42,10 @@ public class FCMService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         if (!new LocalData(this).getToken().isEmpty()) {
-            intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             String imageUri = remoteMessage.getData().get("image");
             if (imageUri != null)
                 bitmap = getBitmapfromUri(imageUri);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, createInCallIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Id);
             if (bitmap != null) {
                 builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).setBigContentTitle(remoteMessage.getData().get("title")).setSummaryText(remoteMessage.getData().get("body")));
@@ -54,10 +53,12 @@ public class FCMService extends FirebaseMessagingService {
                 builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getData().get("body")).setBigContentTitle(remoteMessage.getData().get("title")));
 
             builder.setFullScreenIntent(pendingIntent, true);
+            builder.setCategory(Notification.CATEGORY_CALL);
+            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
             builder.setPriority(NotificationCompat.PRIORITY_MAX);
+            builder.setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500});
             builder.setAutoCancel(true);
             builder.setDefaults(Notification.DEFAULT_VIBRATE);
-            builder.setVibrate(new long[]{10000, 10000, 10000, 10000, 10000});
             builder.setLights(Color.RED, 10000, 10000);
             builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             builder.setContentIntent(pendingIntent);
@@ -69,6 +70,15 @@ public class FCMService extends FirebaseMessagingService {
             }
             manager.notify(0, builder.build());
         }
+    }
+
+    public static Intent createInCallIntent() {
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+        intent.setClassName("com.developndesign.telehealthpatient.activity", VideoChatViewActivity.class.getName());
+        return intent;
     }
 
     private Bitmap getBitmapfromUri(String imageUri) {

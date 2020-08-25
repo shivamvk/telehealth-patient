@@ -180,29 +180,60 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
-                <Switch
-                    android:id="@+id/switch_sg"
+                <Button
+                    android:id="@+id/add_surgery"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorPrimary"
+                    android:text="+"
+                    android:textColor="@color/colowWhite" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Surgeries" />
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-                <EditText
-                    android:id="@+id/sg"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:editable="false"
-                    android:focusable="true"
-                    android:enabled="false"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/colorTile"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Surgeries"
+                        android:textColor="@color/colorBlack" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/surgeries"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <!--                <Switch-->
+                    <!--                    android:id="@+id/switch_sg"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:text="Surgeries" />-->
+
+                    <!--                <EditText-->
+                    <!--                    android:id="@+id/sg"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="40dp"-->
+                    <!--                    android:editable="false"-->
+                    <!--                    android:focusable="true"-->
+                    <!--                    android:enabled="false"-->
+                    <!--                    android:inputType="textMultiLine"-->
+                    <!--                    android:textColor="@color/colorTile"-->
+                    <!--                    android:textSize="16sp" />-->
+                </LinearLayout>
+
+            </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -214,29 +245,123 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
-                <Switch
-                    android:id="@+id/switch_cm"
+                <Button
+                    android:id="@+id/add_medication"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorPrimary"
+                    android:text="+"
+                    android:textColor="@color/colowWhite" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Current Medication" />
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-                <EditText
-                    android:id="@+id/cm"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Current Medication"
+                        android:textColor="@color/colorBlack" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/medications"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <!--                <Switch-->
+                    <!--                    android:id="@+id/switch_cm"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:text="Current Medication" />-->
+
+                    <!--                <EditText-->
+                    <!--                    android:id="@+id/cm"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="40dp"-->
+                    <!--                    android:editable="false"-->
+                    <!--                    android:focusable="true"-->
+                    <!--                    android:inputType="textMultiLine"-->
+                    <!--                    android:enabled="false"-->
+                    <!--                    android:textColor="@color/colorTile"-->
+                    <!--                    android:textSize="16sp" />-->
+                </LinearLayout>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/add_alergies"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorPrimary"
+                    android:text="+"
+                    android:textColor="@color/colowWhite" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:editable="false"
-                    android:focusable="true"
-                    android:inputType="textMultiLine"
-                    android:enabled="false"
-                    android:textColor="@color/colorTile"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Any allergies"
+                        android:textColor="@color/colorBlack" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/allergies"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <!--                <Switch-->
+                    <!--                    android:id="@+id/switch_cm"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:text="Current Medication" />-->
+
+                    <!--                <EditText-->
+                    <!--                    android:id="@+id/cm"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="40dp"-->
+                    <!--                    android:editable="false"-->
+                    <!--                    android:focusable="true"-->
+                    <!--                    android:inputType="textMultiLine"-->
+                    <!--                    android:enabled="false"-->
+                    <!--                    android:textColor="@color/colorTile"-->
+                    <!--                    android:textSize="16sp" />-->
+                </LinearLayout>
+
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView

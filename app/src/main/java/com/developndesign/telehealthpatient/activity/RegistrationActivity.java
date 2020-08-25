@@ -68,6 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             }
         });
+        signup.setEnabled(true);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

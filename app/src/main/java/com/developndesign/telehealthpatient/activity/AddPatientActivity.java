@@ -7,15 +7,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,11 +31,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.developndesign.telehealthpatient.R;
 import com.developndesign.telehealthpatient.adapter.MedicalProblemAdapter;
+import com.developndesign.telehealthpatient.adapter.PillAdapter;
 import com.developndesign.telehealthpatient.utils.LocalData;
 import com.developndesign.telehealthpatient.utils.MongoDB;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,8 +53,7 @@ public class AddPatientActivity extends AppCompatActivity {
     private LocalData localData;
     private ProgressDialog progressDialog;
     private Activity activity;
-    private EditText name, age, relation, surgeries, currentMedication;
-    private Switch switchSug, switchMed;
+    private EditText name, age, relation;
     private String strname, strage, strrelation;
     private String strgender;
     private boolean boolSmooking;
@@ -55,6 +63,10 @@ public class AddPatientActivity extends AppCompatActivity {
     private boolean boolSwitchSug;
     private boolean boolSwitchCM;
     private String jsonData;
+    private Button addSurgery, addMedication, addAllergy;
+    private RecyclerView surgeries, medications, allergies;
+    private ArrayList<String> surgeriesList, medicationsList, allergiesList;
+    private PillAdapter surgeriesAdapter, medicationAdapter, allergiesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +84,20 @@ public class AddPatientActivity extends AppCompatActivity {
         gender = findViewById(R.id.gender);
         relation = findViewById(R.id.relation);
         smoking = findViewById(R.id.smoking);
+        addSurgery = findViewById(R.id.add_surgery);
+        surgeries = findViewById(R.id.surgeries);
+        surgeriesList = new ArrayList<>();
+        addMedication = findViewById(R.id.add_medication);
+        medications = findViewById(R.id.medications);
+        medicationsList = new ArrayList<>();
+        addAllergy = findViewById(R.id.add_alergies);
+        allergies = findViewById(R.id.allergies);
+        allergiesList = new ArrayList<>();
         RecyclerView rv_medicalProblem = findViewById(R.id.rv_mp);
-        surgeries = findViewById(R.id.sg);
-        currentMedication = findViewById(R.id.cm);
-        switchMed = findViewById(R.id.switch_cm);
-        switchSug = findViewById(R.id.switch_sg);
+//        surgeries = findViewById(R.id.sg);
+//        currentMedication = findViewById(R.id.cm);
+//        switchMed = findViewById(R.id.switch_cm);
+//        switchSug = findViewById(R.id.switch_sg);
         rv_medicalProblem = findViewById(R.id.rv_mp);
         arrayListMed = new ArrayList<>();
         arrayListCheckMed = new ArrayList<>();
@@ -86,7 +107,7 @@ public class AddPatientActivity extends AppCompatActivity {
         String[] medicalsPb = getResources().getStringArray(R.array.mp);
         arrayListMed.addAll(Arrays.asList(medicalsPb));
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(AddPatientActivity.this,2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(AddPatientActivity.this, 2);
         rv_medicalProblem.setLayoutManager(gridLayoutManager);
         MedicalProblemAdapter medicalProblemAdapter = new MedicalProblemAdapter(AddPatientActivity.this, arrayListMed, arrayListCheckMed);
         rv_medicalProblem.setAdapter(medicalProblemAdapter);
@@ -100,8 +121,8 @@ public class AddPatientActivity extends AppCompatActivity {
                 if (validate()) {
                     strgender = gender.getSelectedItem().toString().toLowerCase();
                     boolSmooking = smoking.getSelectedItem().toString().toLowerCase().equals("yes");
-                    boolSwitchSug = switchSug.isChecked();
-                    boolSwitchCM = switchMed.isChecked();
+//                    boolSwitchSug = switchSug.isChecked();
+//                    boolSwitchCM = switchMed.isChecked();
                     progressDialog.setMessage("Please wait...");
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
@@ -110,48 +131,88 @@ public class AddPatientActivity extends AppCompatActivity {
             }
         });
 
-        switchSug.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        surgeries.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        surgeriesAdapter = new PillAdapter(this, surgeriesList);
+        surgeries.setAdapter(surgeriesAdapter);
+        addSurgery.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                surgeries.setEnabled(isChecked);
-            }
-        });
-        switchMed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                currentMedication.setEnabled(isChecked);
-            }
-        });
-        surgeries.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if (switchSug.isChecked())
-                        showAlertDialog(surgeries, "Surgeries", arrayListSur);
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+                showAlertDialog("Surgeries");
             }
         });
 
-        currentMedication.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
+        medications.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        medicationAdapter = new PillAdapter(this, medicationsList);
+        medications.setAdapter(medicationAdapter);
+        addMedication.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    if (switchMed.isChecked())
-                        showAlertDialog(currentMedication, "Current Medication", arrayListCM);
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+                showAlertDialog("Medication");
             }
         });
+
+        allergies.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        allergiesAdapter = new PillAdapter(this, allergiesList);
+        allergies.setAdapter(allergiesAdapter);
+        addAllergy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlertDialog("Allergy");
+            }
+        });
+
+//        switchSug.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                surgeries.setEnabled(isChecked);
+//            }
+//        });
+//        switchMed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                currentMedication.setEnabled(isChecked);
+//            }
+//        });
+//        surgeries.setOnTouchListener(new View.OnTouchListener() {
+//            @SuppressLint("ClickableViewAccessibility")
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if(event.getAction() == MotionEvent.ACTION_UP) {
+//                    if (switchSug.isChecked())
+//                        showAlertDialog(surgeries, "Surgeries", arrayListSur);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+
+//        currentMedication.setOnTouchListener(new View.OnTouchListener() {
+//            @SuppressLint("ClickableViewAccessibility")
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    if (switchMed.isChecked())
+//                        showAlertDialog(currentMedication, "Current Medication", arrayListCM);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
 
     }
 
-    private void showAlertDialog(final EditText editText, final String enter, final ArrayList<String> arrayList) {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+            }
+        }
+        return true;
+    }
+
+    private void showAlertDialog(final String enter) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
         View view = LayoutInflater.from(activity).inflate(R.layout.add_member_view, null);
         alertDialog.setView(view);
@@ -174,9 +235,18 @@ public class AddPatientActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String str = textViewName.getText().toString();
                 if (!str.replaceAll(" ", "").isEmpty()) {
-                    editText.append(str + " ");
-                    arrayList.add(str);
+                    if (enter.equals("Surgeries")){
+                        surgeriesList.add(str);
+                        surgeriesAdapter.notifyDataSetChanged();
+                    } else if (enter.equals("Medication")){
+                        medicationsList.add(str);
+                        medicationAdapter.notifyDataSetChanged();
+                    } else if (enter.equals("Allergy")){
+                        allergiesList.add(str);
+                        allergiesAdapter.notifyDataSetChanged();
+                    }
                     alertDialog1.cancel();
+
                 } else
                     Toast.makeText(activity, "Please enter " + enter, Toast.LENGTH_SHORT).show();
             }
@@ -220,19 +290,22 @@ public class AddPatientActivity extends AppCompatActivity {
                     jsonArrayMed.put(str);
 
                 JSONArray jsonArraySur = new JSONArray();
-                if (boolSwitchSug)
-                    for (String str : arrayListSur)
+                    for (String str : surgeriesAdapter.getData())
                         jsonArraySur.put(str);
 
                 JSONArray jsonArrayCM = new JSONArray();
-                if (boolSwitchCM)
-                    for (String str : arrayListCM)
+                for (String str : medicationAdapter.getData())
                         jsonArrayCM.put(str);
+
+                JsonArray jsonArrayAll = new JsonArray();
+                for (String str: allergiesAdapter.getData())
+                    jsonArrayAll.add(str);
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("medicalProblems", jsonArrayMed);
                 jsonObject.put("surgeries", jsonArraySur);
                 jsonObject.put("currentMedication", jsonArrayCM);
+                jsonObject.put("allergies", jsonArrayAll);
                 jsonObject.put("smoking", boolSmooking);
                 params.put("history", jsonObject);
 
@@ -245,7 +318,7 @@ public class AddPatientActivity extends AppCompatActivity {
                         .build();
                 Response response = client.newCall(request).execute();
                 jsonData = response.body().string();
-                Log.e("TAG", "doInBackground: "+jsonData );
+                Log.e("TAG", "doInBackground: " + jsonData);
             } catch (Exception e) {
                 Log.e("TAG", "doInBackground: " + e);
                 e.printStackTrace();

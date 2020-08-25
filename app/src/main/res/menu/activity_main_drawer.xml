@@ -10,7 +10,7 @@
         <item
             android:id="@+id/nav_new_booking"
             android:icon="@drawable/ic_send"
-            android:title="New Booking" />
+            android:title="Get care" />
         <item
             android:id="@+id/nav_patient"
             android:icon="@drawable/ic_patient"

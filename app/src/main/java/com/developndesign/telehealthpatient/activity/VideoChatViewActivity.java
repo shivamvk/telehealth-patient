@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 
 import com.developndesign.telehealthpatient.R;
 import com.developndesign.telehealthpatient.model.BookAppointmentModelData;
+import com.developndesign.telehealthpatient.network.SendNotificationToDoctor;
 import com.developndesign.telehealthpatient.utils.LocalData;
 import com.developndesign.telehealthpatient.utils.MongoDB;
 import com.google.gson.Gson;
@@ -79,7 +80,7 @@ public class VideoChatViewActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
+                    Log.i("agora","Join channel success, uid: " + (uid & 0xFFFFFFFFL));
                 }
             });
         }
@@ -90,7 +91,6 @@ public class VideoChatViewActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
                     setupRemoteVideo(uid);
                 }
             });
@@ -206,25 +206,38 @@ public class VideoChatViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video_chat_view);
         initUI();
         id = getIntent().getStringExtra("id");
-        bookAppointmentModelData = getIntent().getParcelableExtra(LocalData.BOOK_APPOINTMENT);
-        Log.e("TAG", "onCreate: " + id);
-        if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
-                checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID) &&
-                checkSelfPermission(REQUESTED_PERMISSIONS[2], PERMISSION_REQ_ID)) {
-            initEngineAndJoinChannel();
+        try {
+            sendNotificationToDoctor();
+            bookAppointmentModelData = getIntent().getParcelableExtra(LocalData.BOOK_APPOINTMENT);
+            Log.e("TAG", "onCreate: " + id);
+            if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
+                    checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID) &&
+                    checkSelfPermission(REQUESTED_PERMISSIONS[2], PERMISSION_REQ_ID)) {
+                initEngineAndJoinChannel();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void sendNotificationToDoctor() throws Exception {
+        if (id == null){
+            throw new Exception("Please provide a valid id of doctor");
+        }
+        new SendNotificationToDoctor().execute(
+                new String[]
+                        {MongoDB.SEND_NOTIFICATION_URL + "/" + id,
+                                localData.getToken()});
     }
 
     private void initUI() {
         localData = new LocalData(VideoChatViewActivity.this);
         mLocalContainer = findViewById(R.id.local_video_view_container);
         mRemoteContainer = findViewById(R.id.remote_video_view_container);
-
         mCallBtn = findViewById(R.id.btn_call);
         mMuteBtn = findViewById(R.id.btn_mute);
         mSwitchCameraBtn = findViewById(R.id.btn_switch_camera);
         timerTextView = findViewById(R.id.timerText);
-
     }
 
     private void startTimer() {
@@ -339,6 +352,9 @@ public class VideoChatViewActivity extends AppCompatActivity {
     }
 
     private void leaveChannel() {
+        if (mRtcEngine == null){
+            return;
+        }
         mRtcEngine.leaveChannel();
     }
 

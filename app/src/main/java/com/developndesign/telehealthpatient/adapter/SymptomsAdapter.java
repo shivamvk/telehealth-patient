@@ -18,6 +18,7 @@ import com.developndesign.telehealthpatient.activity.QuestionsActivity;
 import com.developndesign.telehealthpatient.activity.SymptomsActivity;
 import com.developndesign.telehealthpatient.model.LanguageSymptomModelData;
 import com.developndesign.telehealthpatient.model.SymptomsModelData;
+import com.developndesign.telehealthpatient.utils.CommonMethods;
 import com.developndesign.telehealthpatient.utils.LocalData;
 import com.developndesign.telehealthpatient.utils.MongoDB;
 
@@ -41,7 +42,7 @@ public class SymptomsAdapter extends RecyclerView.Adapter<SymptomsAdapter.Sympto
 
     @Override
     public void onBindViewHolder(@NonNull SymptomViewHolder holder, final int position) {
-        holder.symptomName.setText(languageSymptomModelData.get(position).getName());
+        holder.symptomName.setText(CommonMethods.capitalizeWord(languageSymptomModelData.get(position).getName()));
         Glide.with(context).load(MongoDB.AMAZON_BUCKET_URL + languageSymptomModelData.get(position).getIcon()).into(holder.symptomImg);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
