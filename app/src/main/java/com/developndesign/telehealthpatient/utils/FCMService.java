@@ -41,7 +41,18 @@ public class FCMService extends FirebaseMessagingService {
     @SuppressLint("ResourceAsColor")
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        if (!new LocalData(this).getToken().isEmpty()) {
+        if (remoteMessage.getData().get("channel").toString().equals("general")){
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Id);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+            builder.setContentTitle(remoteMessage.getData().get("title"));
+            builder.setContentTitle(remoteMessage.getData().get("body"));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(Id, "Default channel", NotificationManager.IMPORTANCE_HIGH);
+                manager.createNotificationChannel(channel);
+            }
+            manager.notify(0, builder.build());
+        } else if (!new LocalData(this).getToken().isEmpty()) {
             String imageUri = remoteMessage.getData().get("image");
             if (imageUri != null)
                 bitmap = getBitmapfromUri(imageUri);

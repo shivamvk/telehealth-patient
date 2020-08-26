@@ -32,6 +32,15 @@ public class UserModelData {
     private boolean medicalBoardDeciplinaryAction;
     private boolean favourite;
     private AddressModelData address;
+    private ReviewsModel reviews;
+
+    public ReviewsModel getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(ReviewsModel reviews) {
+        this.reviews = reviews;
+    }
 
     public AddressModelData getAddress() {
         return address;

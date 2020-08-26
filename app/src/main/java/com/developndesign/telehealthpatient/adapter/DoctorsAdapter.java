@@ -105,7 +105,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
         holder.connectNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //new SendNotificationToDoctor().execute(MongoDB.SEND_NOTIFICATION_URL+userModelData.get(position).get_id());
                 Intent intent = new Intent(context, VideoChatViewActivity.class);
                 intent.putExtra("id", userModelData.get(position).get_id());
@@ -114,6 +113,12 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
                 context.startActivity(intent);
             }
         });
+        if (userModelData.get(position).getReviews().getTotal() == 0){
+            holder.ratings.setText("0(0 ratings)");
+        } else {
+            float r = userModelData.get(position).getReviews().getRating()/userModelData.get(position).getReviews().getTotal();
+            holder.ratings.setText(r + "(" + userModelData.get(position).getReviews().getTotal() + " ratings)");
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -249,7 +254,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
     static class DoctorViewHolder extends RecyclerView.ViewHolder {
         private TextView docName;
         private CircleImageView docImage;
-        private TextView connectNow;
+        private TextView connectNow, ratings;
         private TextView viewProfile;
         private ImageView docFav;
 
@@ -260,6 +265,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorVi
             docFav = itemView.findViewById(R.id.doc_fav);
             connectNow = itemView.findViewById(R.id.doc_connect_doctor);
             viewProfile = itemView.findViewById(R.id.doc_view_profile);
+            ratings = itemView.findViewById(R.id.ratings);
         }
     }
 }
