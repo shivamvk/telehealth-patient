@@ -44,7 +44,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Sympto
     @Override
     public void onBindViewHolder(@NonNull SymptomViewHolder holder, final int position) {
         holder.textQuestion.setText(questionModelData.get(position).getTitle());
-        holder.textQuestionNo.setText("Q." + (position + 1));
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -83,14 +82,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Sympto
     }
 
     static class SymptomViewHolder extends RecyclerView.ViewHolder {
-        private TextView textQuestionNo;
         private TextView textQuestion;
         private CheckBox checkBox;
 
         public SymptomViewHolder(@NonNull View itemView) {
             super(itemView);
             textQuestion = itemView.findViewById(R.id.questions);
-            textQuestionNo = itemView.findViewById(R.id.question_num);
             checkBox = itemView.findViewById(R.id.qustion_checkbox);
         }
     }

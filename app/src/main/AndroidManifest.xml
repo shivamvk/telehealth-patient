@@ -29,7 +29,8 @@
         <activity android:name=".activity.TermsConditionActivity" />
         <activity android:name=".activity.ShowHistoryActivity" />
         <activity android:name=".activity.DoctorProfileActivity" />
-        <activity android:name=".activity.VideoChatViewActivity" />
+        <activity android:name=".activity.VideoChatViewActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge"/>
         <activity android:name=".activity.SelectDoctorActivity" />
         <activity android:name=".activity.QuestionsActivity" />
         <activity android:name=".activity.SymptomsActivity" />
